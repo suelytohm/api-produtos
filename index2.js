@@ -34,7 +34,7 @@ app.get("/email", (req, res) => {
 // Listagem de produtos
 app.get("/produtos", async (req, res) => {
   const consulta =
-    `SELECT id, nomeProduto, marcaProduto, codigoBarras, quantidade, validade,
+    `SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
        (validade - CURRENT_DATE) AS diasValidade 
        FROM produtos WHERE quantidade > 0 ORDER BY validade;`;
   try {
@@ -99,7 +99,7 @@ app.put("/produto/:id", async (req, res) => {
 app.get("/produto/:id", async (req, res) => {
   const id = req.params.id;
   const consulta = `
-    SELECT id, nomeProduto, marcaProduto, codigoBarras, quantidade, validade,
+    SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
     (validade - CURRENT_DATE) AS diasValidade 
     FROM produtos WHERE id = $1`;
 
@@ -116,7 +116,7 @@ app.get("/produto/:id", async (req, res) => {
 app.get("/produtos/buscar/:nome", async (req, res) => {
   const nome = req.params.nome;
   const consulta = `
-    SELECT id, nomeProduto, marcaProduto, codigoBarras, quantidade, validade,
+    SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
     (validade - CURRENT_DATE) AS diasValidade 
     FROM produtos
     WHERE nomeProduto ILIKE $1 OR marcaProduto ILIKE $1 OR codigoBarras ILIKE $1
@@ -135,7 +135,7 @@ app.get("/produtos/buscar/:nome", async (req, res) => {
 app.get("/produtos/validade/:dias", async (req, res) => {
   const dias = req.params.dias;
   const consulta = `
-    SELECT id, nomeProduto, marcaProduto, codigoBarras, quantidade, validade,
+    SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
     (validade - CURRENT_DATE) AS diasValidade 
     FROM produtos WHERE quantidade > 0 AND validade <= CURRENT_DATE + INTERVAL '1 day' * $1
     ORDER BY validade`;
