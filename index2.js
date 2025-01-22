@@ -35,7 +35,7 @@ app.get("/email", (req, res) => {
 app.get("/produtos", async (req, res) => {
   const consulta =
     `SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
-       (validade - CURRENT_DATE) AS diasValidade 
+       (validade - CURRENT_DATE) AS "diasValidade"
        FROM produtos WHERE quantidade > 0 ORDER BY validade;`;
   try {
     const result = await pool.query(consulta);
