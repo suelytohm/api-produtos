@@ -116,11 +116,22 @@ app.get("/produto/:id", async (req, res) => {
 app.get("/produtos/buscar/:nome", async (req, res) => {
   const nome = req.params.nome;
   const consulta = `
-    SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
+    SELECT 
+    id, 
+    "nomeProduto", 
+    "marcaProduto", 
+    "codigoBarras", 
+    quantidade, 
+    validade,
     (validade - CURRENT_DATE) AS "diasValidade"
-    FROM produtos
-    WHERE nomeProduto ILIKE $1 OR marcaProduto ILIKE $1 OR codigoBarras ILIKE $1
-    ORDER BY validade`;
+FROM 
+    produtos
+WHERE 
+    "nomeProduto" ILIKE $1 
+    OR "marcaProduto" ILIKE $1 
+    OR "codigoBarras" ILIKE $1
+ORDER BY 
+    validade;`;
 
   try {
     const result = await pool.query(consulta, [`%${nome}%`]);
