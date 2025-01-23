@@ -51,8 +51,8 @@ app.post("/produto", async (req, res) => {
   const { nomeProduto, marcaProduto, codigoBarras, quantidade, validade } =
     req.body;
   const consulta = `
-    INSERT INTO produtos (nomeProduto, marcaProduto, codigoBarras, quantidade, validade)
-    VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    INSERT INTO produtos ("nomeProduto", "marcaProduto", "codigoBarras", "quantidade", "validade")
+    VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
 
   try {
     const result = await pool.query(consulta, [
@@ -76,7 +76,7 @@ app.put("/produto/:id", async (req, res) => {
     req.body;
   const consulta = `
     UPDATE produtos
-    SET nomeProduto = $1, marcaProduto = $2, codigoBarras = $3, quantidade = $4, validade = $5
+    SET "nomeProduto" = $1, "marcaProduto" = $2, "codigoBarras" = $3, "quantidade" = $4, "validade" = $5
     WHERE id = $6 RETURNING *`;
 
   try {
@@ -100,7 +100,7 @@ app.get("/produto/:id", async (req, res) => {
   const id = req.params.id;
   const consulta = `
     SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
-    (validade - CURRENT_DATE) AS diasValidade 
+    (validade - CURRENT_DATE) AS "diasValidade"
     FROM produtos WHERE id = $1`;
 
   try {
@@ -117,7 +117,7 @@ app.get("/produtos/buscar/:nome", async (req, res) => {
   const nome = req.params.nome;
   const consulta = `
     SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
-    (validade - CURRENT_DATE) AS diasValidade 
+    (validade - CURRENT_DATE) AS "diasValidade"
     FROM produtos
     WHERE nomeProduto ILIKE $1 OR marcaProduto ILIKE $1 OR codigoBarras ILIKE $1
     ORDER BY validade`;
@@ -136,7 +136,7 @@ app.get("/produtos/validade/:dias", async (req, res) => {
   const dias = req.params.dias;
   const consulta = `
     SELECT id, "nomeProduto", "marcaProduto", "codigoBarras", quantidade, validade,
-    (validade - CURRENT_DATE) AS diasValidade 
+    (validade - CURRENT_DATE) AS "diasValidade"
     FROM produtos WHERE quantidade > 0 AND validade <= CURRENT_DATE + INTERVAL '1 day' * $1
     ORDER BY validade`;
 
